@@ -1,8 +1,8 @@
 {
-  "name": "vue-tab-component",
-  "version": "1.4.0",
-  "description": "easy tabs component",
-  "main": "dist/vue-tabs.min.js",
+  "name": "vue-image-uploader",
+  "version": "0.0.1",
+  "description": "🔥🔥🚀🚀 Image uploader component for Vue  base on WebUploader",
+  "main": "dist/vue-image-uploader.min.js",
   "scripts": {
     "dev": "node build/dev-server.js",
     "build:dev": "node ./build/build.dev.js",
@@ -15,30 +15,26 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qq240814476/vue-tab-component.git"
+    "url": "git+https://github.com/qq240814476/vue-image-uploader.git"
   },
   "author": "malin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/qq240814476/vue-tab-component/issues"
+    "url": "https://github.com/qq240814476/vue-image-uploader/issues"
   },
-  "homepage": "https://github.com/qq240814476/vue-tab-component#readme",
+  "homepage": "https://github.com/qq240814476/vue-image-uploader#readme",
   "engines": {
     "node": ">= 10.15.0",
     "npm": ">= 6.0.0"
   },
   "keywords": [
-    "vue-tab",
-    "vue-tab-component",
+    "vue-image",
+    "vue-image-uploader",
     "DOM render",
-    "light tab",
+    "webuploader",
     "ml",
-    "left-tab",
-    "right-tab",
-    "tabPosition",
-    "left",
-    "right",
-    "vue",
+    "WebUploader",
+    "image",
     "vue-components"
   ],
   "publishConfig": {
