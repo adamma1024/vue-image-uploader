@@ -17,7 +17,7 @@ export default {
         auto: true,
 
         // swf文件路径
-        swf: BASE_URL + '/js/Uploader.swf',
+        swf:  + '/assets/Uploader.swf',
 
         // 文件接收服务端。
         server: 'http://webuploader.duapp.com/server/fileupload.php',
