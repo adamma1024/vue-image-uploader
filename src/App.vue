@@ -10,6 +10,7 @@
 <script>
 export default {
   mounted() {
+    const list = $('#fileList')
     // 初始化Web Uploader
     var uploader = WebUploader.create({
 
@@ -44,8 +45,9 @@ export default {
             $img = $li.find('img');
 
 
-        // $list为容器jQuery实例
-        $('#fileList').append( $li );
+        //先清空再添加
+        list.empty()
+        list.append( $li );
 
         // 创建缩略图
         // 如果为非图片文件，可以不用调用此方法。
