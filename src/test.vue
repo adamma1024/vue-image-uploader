@@ -1,11 +1,12 @@
 <template>
-  <!--dom结构部分-->
-  <div id="uploader-demo">
-      <!--用来存放item-->
-      <div id="fileList" class="uploader-list"></div>
-      <div id="filePicker">选择图片</div>
-  </div>
+    <!--dom结构部分-->
+    <div id="uploader-demo">
+        <!--用来存放item-->
+        <div id="fileList" class="uploader-list"></div>
+        <div id="filePicker">选择图片</div>
+    </div>
 </template>
+
 <script>
 export default {
   mounted() {
