@@ -100,7 +100,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.uploader-list {
+    width: 100%;
+    overflow: hidden;
+}
 .file-item {
     float: left;
     position: relative;

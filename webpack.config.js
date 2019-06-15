@@ -2,6 +2,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
@@ -46,10 +47,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: 'style-loader',
-            options: {
-              sourceMap: true
-            }
+            loader: MiniCssExtractPlugin.loader
           },
           {
             loader: 'css-loader',
@@ -64,6 +62,10 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'output.css',
+      chunkFilename: '[id].css'
+    }),
     new CopyWebpackPlugin([{
       from: 'static',
       to: 'assets',
