@@ -32,7 +32,23 @@ export default {
             title: 'Images',
             extensions: 'gif,jpg,jpeg,bmp,png',
             mimeTypes: 'image/*'
-        }
+        },
+        //去重
+        duplicate: false, 
+        // 是否要分片处理大文件上传
+        chunked: true,
+        // 如果要分片，分多大一片？ 默认大小为5M
+        chunkSize: 5242880,
+        // 如果某个分片由于网络问题出错，允许自动重传多少次？
+        chunkRetry: 2,
+        // 文件上传请求的参数表，每次发送都会发送此对象中的参数
+        formData: {},
+        // 是否已二进制的流的方式发送文件
+        sendAsBinary: false,
+        // 验证文件总大小是否超出限制, 超出则不允许加入队列
+        fileSizeLimit: true,
+        // 验证单个文件大小是否超出限制, 超出则不允许加入队列
+        fileSingleSizeLimit: true, 
     })
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
