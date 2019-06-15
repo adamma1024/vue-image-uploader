@@ -33,8 +33,8 @@ export default {
             extensions: 'gif,jpg,jpeg,bmp,png',
             mimeTypes: 'image/*'
         },
-        //去重
-        duplicate: false, 
+        // 是否允许重复（文档解释为去重，不准确）
+        duplicate: true, 
         // 是否要分片处理大文件上传
         chunked: true,
         // 如果要分片，分多大一片？ 默认大小为5M
@@ -46,9 +46,9 @@ export default {
         // 是否已二进制的流的方式发送文件
         sendAsBinary: false,
         // 验证文件总大小是否超出限制, 超出则不允许加入队列
-        fileSizeLimit: true,
+        // fileSizeLimit: true,
         // 验证单个文件大小是否超出限制, 超出则不允许加入队列
-        fileSingleSizeLimit: true, 
+        // fileSingleSizeLimit: true, 
     })
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
