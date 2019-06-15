@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import test from './test.vue'
+import App from './App.vue'
 
 const a = new Vue({
-  template: '<test></test>',
-  components: { test }
+  template: '<App></App>',
+  components: { App }
 }).$mount('#app')
