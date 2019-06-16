@@ -8,8 +8,9 @@
 </template>
 
 <script>
+import webuploaderMixins from './webuploadermixins'
 export default {
-  mounted() {
+    mounted() {
     const list = $('#fileList')
     // 初始化Web Uploader
     var uploader = WebUploader.create({
@@ -114,7 +115,7 @@ export default {
     uploader.on( 'uploadComplete', function( file ) {
         $( '#'+file.id ).find('.progress').remove();
     });
-  }
+    }
 }
 </script>
 
