@@ -75,31 +75,32 @@ export default {
     // {Boolean} [可选] [默认值：false] 是否允许在文件传输时提前把下一个文件准备好。 对于一个文件的准备工作比较耗时,
     // 比如图片压缩，md5序列化。 如果能提前在当前文件传输期处理，可以节省总体耗时。
     'prepareNextFile',
-    // 
+    // {Boolean} [可选] [默认值：false] 是否要分片处理大文件上传。
     'chunked',
-    // 
+    // {Boolean} [可选] [默认值：5242880] 如果要分片，分多大一片？ 默认大小为5M.
     'chunkSize',
-    // 
+    // {Boolean} [可选] [默认值：2] 如果某个分片由于网络问题出错，允许自动重传多少次？
     'chunkRetry',
-    // 
+    // {Boolean} [可选] [默认值：3] 上传并发数。允许同时最大上传进程数。
     'threads',
-    // 
+    // {Object} [可选] [默认值：{}] 文件上传请求的参数表，每次发送都会发送此对象中的参数。
     'formData',
-    // 
+    // {Object} [可选] [默认值：'file'] 设置文件上传域的name。
     'fileVal',
-    // 
+    // {Object} [可选] [默认值：'POST'] 文件上传方式，POST或者GET。
     'method',
-    // 
+    // {Object} [可选] [默认值：false] 是否已二进制的流的方式发送文件，这样整个上传内容php://input都为文件内容， 其他参数在$_GET数组中。
     'sendAsBinary',
-    // 
+    // {int} [可选] [默认值：undefined] 验证文件总数量, 超出则不允许加入队列。
     'fileNumLimit',
-    // 
+    // {int} [可选] [默认值：undefined] 验证文件总大小是否超出限制, 超出则不允许加入队列。
     'fileSizeLimit',
-    // 
+    // {int} [可选] [默认值：undefined] 验证单个文件大小是否超出限制, 超出则不允许加入队列。
     'fileSingleSizeLimit',
-    // 
+    // {Boolean} [可选] [默认值：undefined] 去重， 根据文件名字、文件大小和最后修改时间来生成hash Key.
     'duplicate',
-    // 
-    'disableWidgets',
+    // {String, Array} [可选] [默认值：undefined] 默认所有 Uploader.register 了的 widget 都会被加载，
+    // 如果禁用某一部分，请通过此 option 指定黑名单。
+    'disableWidgets'
   ]
 }
