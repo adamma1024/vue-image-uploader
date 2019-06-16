@@ -63,7 +63,7 @@ export default {
 
         //先清空再添加
         list.empty()
-        list.append( $li );a
+        list.append( $li );
 
         // 创建缩略图
         // 如果为非图片文件，可以不用调用此方法。
