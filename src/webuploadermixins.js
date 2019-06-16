@@ -1,0 +1,27 @@
+export default {
+  props: [
+    'dnd',
+    'disableGlobalDnd',
+    'paste',
+    'pick',
+    'accept',
+    'thumb',
+    'compress',
+    'auto',
+    'runtimeOrder',
+    'prepareNextFile',
+    'chunked',
+    'chunkSize',
+    'chunkRetry',
+    'threads',
+    'formData',
+    'fileVal',
+    'method',
+    'sendAsBinary',
+    'fileNumLimit',
+    'fileSizeLimit',
+    'fileSingleSizeLimit',
+    'duplicate',
+    'disableWidgets',
+  ]
+}
