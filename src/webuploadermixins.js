@@ -1,3 +1,6 @@
+/**
+ * 具体API 请访问 webuploader官网 https://fex.baidu.com/webuploader/doc/index.html 查看
+ */
 export default {
   props: [
     // {Selector} [可选] [默认值：undefined] 指定Drag And Drop拖拽的容器，如果不指定，则不启动
