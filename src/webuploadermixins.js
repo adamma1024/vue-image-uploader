@@ -105,5 +105,76 @@ export default {
     // {String, Array} [可选] [默认值：undefined] 默认所有 Uploader.register 了的 widget 都会被加载，
     // 如果禁用某一部分，请通过此 option 指定黑名单。
     'disableWidgets'
-  ]
+  ],
+  data () {
+    return {
+      // 可能有pedding, ready, uploading, confirm, done.
+      state: 'pedding'
+    }
+  },
+  methods: {
+    setState: val => {
+      var stats
+
+      if (val === state) {
+          return;
+      }
+
+      $upload.removeClass( 'state-' + state );
+      $upload.addClass( 'state-' + val );
+      state = val;
+
+      switch ( state ) {
+          case 'pedding':
+              $placeHolder.removeClass( 'element-invisible' );
+              $queue.hide();
+              $statusBar.addClass( 'element-invisible' );
+              uploader.refresh();
+              break;
+
+          case 'ready':
+              $placeHolder.addClass( 'element-invisible' );
+              $( '#filePicker2' ).removeClass( 'element-invisible');
+              $queue.show();
+              $statusBar.removeClass('element-invisible');
+              uploader.refresh();
+              break;
+
+          case 'uploading':
+              $( '#filePicker2' ).addClass( 'element-invisible' );
+              $progress.show();
+              $upload.text( '暂停上传' );
+              break;
+
+          case 'paused':
+              $progress.show();
+              $upload.text( '继续上传' );
+              break;
+
+          case 'confirm':
+              $progress.hide();
+              $( '#filePicker2' ).removeClass( 'element-invisible' );
+              $upload.text( '开始上传' );
+
+              stats = uploader.getStats();
+              if ( stats.successNum && !stats.uploadFailNum ) {
+                  setState( 'finish' );
+                  return;
+              }
+              break;
+          case 'finish':
+              stats = uploader.getStats();
+              if ( stats.successNum ) {
+                  alert( '上传成功' );
+              } else {
+                  // 没有成功的图片，重设
+                  state = 'done';
+                  location.reload();
+              }
+              break;
+      }
+
+      updateStatus();
+  }
+  }
 }
