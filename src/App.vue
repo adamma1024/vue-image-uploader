@@ -1,9 +1,11 @@
 <template>
-    <!--dom结构部分-->
-    <div id="uploader-demo">
-        <!--用来存放item-->
-        <ul id="fileList" class="uploader-list"></ul>
-        <div id="filePicker">选择图片</div>
+    <div style="width:300px;height:300px;border:1px solid;">
+        <!--dom结构部分-->
+        <div id="uploader-demo">
+            <!--用来存放item-->
+            <ul id="fileList" class="uploader-list"></ul>
+            <div id="filePicker">选择图片</div>
+        </div>
     </div>
 </template>
 
