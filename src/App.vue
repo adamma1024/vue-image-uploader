@@ -3,11 +3,13 @@
     <div id="nr-os-webuploader" class="webuploader-image-box">
         <!--用来存放item-->
         <ul id="fileList" class="uploader-list">
-            <div id="webuploader-filePicker">选择图片</div>
+            <!-- <img v-if='addImage' src="" alt="添加图片"/> -->
+            <div id="webuploader-filePicker">
+                <span class="iconfont icon-_Ttianjiabiaoge" title="添加图片" style="font-size:60px;"></span>
+            </div>
         </ul>
-        <div class="webuploader-image-box-status-bar" style="display:none;">
+        <div class="webuploader-image-box-status-bar" style="display:none;height:100px">
             <div id='webuploader-filePicker2'></div>
-            <div id='webuploader-uploadBtn'>开始上传</div>
         </div>
     </div>
 </template>
@@ -16,6 +18,9 @@
 import webuploaderMixins from './webuploadermixins'
 export default {
     props: {
+        addImage: {
+            default: ''
+        },
         fileSingleSizeLimit: {
             type: [Number, undefined],
             default: undefined
@@ -34,7 +39,7 @@ export default {
     var uploader = WebUploader.create({
 
         // 选完文件后，是否自动上传。
-        auto: false,
+        auto: true,
 
         // swf文件路径
         swf:  + '/assets/Uploader.swf',
@@ -44,7 +49,7 @@ export default {
 
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#filePicker',
+        pick: '#webuploader-filePicker',
 
         // 只允许选择图片文件。
         accept: {
@@ -69,11 +74,6 @@ export default {
         // 验证单个文件大小是否超出限制, 超出则不允许加入队列
         fileSingleSizeLimit: this.fileSingleSizeLimit, 
     })
-    // 添加“添加文件”的按钮，
-    uploader.addButton({
-        id: '#webuploader-filePicker2',
-        label: '继续添加'
-    });
     //抛出错误信息
     uploader.on('error', (type) => {
         let errorTxt = ''
@@ -99,6 +99,7 @@ export default {
         list.empty()
         list.append( $li );
 
+        uploaderParent.find('.webuploader-image-box-status-bar').show()
         // 创建缩略图
         // 如果为非图片文件，可以不用调用此方法。
         // thumbnailWidth x thumbnailHeight 为 100 x 100
@@ -111,6 +112,13 @@ export default {
             $img.attr( 'src', src );
         }, 100, 100 );
     });
+
+    // 添加“添加文件”的按钮，
+    uploader.addButton({
+        id: `#webuploader-filePicker2`,
+        innerHTML: '重新选择'
+    });
+
     // 文件上传过程中创建进度条实时显示。
     uploader.on( 'uploadProgress', function( file, percentage ) {
         var $li = $( '#'+file.id ),
