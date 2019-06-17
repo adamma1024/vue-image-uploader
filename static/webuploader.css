@@ -7,12 +7,15 @@
 	position: relative;
 	border-top: 1px solid #eee;
 	text-align: center;
-	height: 100px;
+	height: 100%;
 }
 .webuploader-element-invisible {
 	position: absolute !important;
 	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
     clip: rect(1px,1px,1px,1px);
+}
+#webuploader-filePicker .webuploader-pick{
+	background: #eeeeee;
 }
 .webuploader-pick {
 	position: relative;
@@ -43,7 +46,7 @@
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
-	background: #eee;
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC");
 }
 .file-item {
 	float: left;
