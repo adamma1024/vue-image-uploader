@@ -1,10 +1,13 @@
 <template>
-    <div style="width:300px;height:300px;border:1px solid;">
-        <!--dom结构部分-->
-        <div id="uploader-demo">
-            <!--用来存放item-->
-            <ul id="fileList" class="uploader-list"></ul>
-            <div id="filePicker">选择图片</div>
+    <!--dom结构部分-->
+    <div id="nr-os-webuploader" class="webuploader-image-box">
+        <!--用来存放item-->
+        <ul id="fileList" class="uploader-list">
+            <div id="webuploader-filePicker">选择图片</div>
+        </ul>
+        <div class="webuploader-image-box-status-bar" style="display:none;">
+            <div id='webuploader-filePicker2'></div>
+            <div id='webuploader-uploadBtn'>开始上传</div>
         </div>
     </div>
 </template>
@@ -12,13 +15,26 @@
 <script>
 import webuploaderMixins from './webuploadermixins'
 export default {
+    props: {
+        fileSingleSizeLimit: {
+            type: [Number, undefined],
+            default: undefined
+        }
+    },
+    data() {
+        return {
+            // uploader: null,
+        }
+    },
     mounted() {
     const list = $('#fileList')
+    const uploaderParent = $('#nr-os-webuploader')
+    const uploadBtn = uploaderParent.find('#webuploader-uploadBtn')
     // 初始化Web Uploader
     var uploader = WebUploader.create({
 
         // 选完文件后，是否自动上传。
-        auto: true,
+        auto: false,
 
         // swf文件路径
         swf:  + '/assets/Uploader.swf',
@@ -40,8 +56,8 @@ export default {
         duplicate: true, 
         // 是否要分片处理大文件上传
         chunked: true,
-        // 如果要分片，分多大一片？ 默认大小为5M
-        chunkSize: 5242880,
+        // 如果要分片，分多大一片？ 默认大小为1M
+        chunkSize: 1048576,
         // 如果某个分片由于网络问题出错，允许自动重传多少次？
         chunkRetry: 2,
         // 文件上传请求的参数表，每次发送都会发送此对象中的参数
@@ -51,7 +67,22 @@ export default {
         // 验证文件总大小是否超出限制, 超出则不允许加入队列
         // fileSizeLimit: true,
         // 验证单个文件大小是否超出限制, 超出则不允许加入队列
-        // fileSingleSizeLimit: true, 
+        fileSingleSizeLimit: this.fileSingleSizeLimit, 
+    })
+    // 添加“添加文件”的按钮，
+    uploader.addButton({
+        id: '#webuploader-filePicker2',
+        label: '继续添加'
+    });
+    //抛出错误信息
+    uploader.on('error', (type) => {
+        let errorTxt = ''
+        if (type === 'Q_TYPE_DENIED') {
+            errorTxt = '请检查上传文件类型'
+        } else if (this.fileSingleSizeLimit && type === 'Q_EXCEED_SIZE_LIMIT') {
+            errorTxt = `上传文件总大小超过限制:${this.fileSingleSizeLimit/1024}KB`
+        }
+        this.$emit('on-error', errorTxt)
     })
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
@@ -122,43 +153,5 @@ export default {
 </script>
 
 <style>
-.uploader-list {
-    width: 100%;
-    overflow: hidden;
-}
-.file-item {
-    float: left;
-    position: relative;
-    margin: 0 20px 20px 0;
-    padding: 4px;
-}
-.file-item .error {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    right: 4px;
-    background: red;
-    color: white;
-    text-align: center;
-    height: 20px;
-    font-size: 14px;
-    line-height: 23px;
-}
-.file-item .info {
-    position: absolute;
-    left: 4px;
-    bottom: 4px;
-    right: 4px;
-    height: 20px;
-    line-height: 20px;
-    text-indent: 5px;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow : ellipsis;
-    font-size: 12px;
-    z-index: 10;
-}
 </style>
 
