@@ -53,7 +53,7 @@ export default {
 
         // 只允许选择图片文件。
         accept: {
-            title: 'Images',a
+            title: 'Images',
             extensions: 'gif,jpg,jpeg,bmp,png',
             mimeTypes: 'image/*'
         },
