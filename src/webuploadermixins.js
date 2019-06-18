@@ -48,27 +48,6 @@ export default {
      * type: 'image/jpeg'
      * }
      */
-    'thumb',
-    /** {Object} [可选] 配置压缩的图片的选项。如果此选项为false, 则图片在上传前不进行压缩。
-     * 默认为：
-     * {
-     * width: 1600,
-     * height: 1600,
-     * // 图片质量，只有type为`image/jpeg`的时候才有效。
-     * quality: 90,
-     * // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
-     * allowMagnify: false,
-     * // 是否允许裁剪。
-     * crop: false,
-     * // 是否保留头部meta信息。
-     * preserveHeaders: true,
-     * // 如果发现压缩后文件大小比原来还大，则使用原来图片
-     * // 此属性可能会影响图片自动纠正功能
-     * noCompressIfLarger: false,
-     * // 单位字节，如果图片大小小于此值，不会采用压缩。
-     * compressSize: 0
-     * }
-     */
     'compress',
     // {Boolean} [可选] [默认值：false] 设置为 true 后，不需要手动调用上传，有文件选择即开始上传。
     'auto',
@@ -113,68 +92,19 @@ export default {
     }
   },
   methods: {
-    setState: val => {
-      var stats
-
-      if (val === state) {
-          return;
-      }
-
-      $upload.removeClass( 'state-' + state );
-      $upload.addClass( 'state-' + val );
-      state = val;
-
-      switch ( state ) {
-          case 'pedding':
-              $placeHolder.removeClass( 'element-invisible' );
-              $queue.hide();
-              $statusBar.addClass( 'element-invisible' );
-              uploader.refresh();
-              break;
-
-          case 'ready':
-              $placeHolder.addClass( 'element-invisible' );
-              $( '#filePicker2' ).removeClass( 'element-invisible');
-              $queue.show();
-              $statusBar.removeClass('element-invisible');
-              uploader.refresh();
-              break;
-
-          case 'uploading':
-              $( '#filePicker2' ).addClass( 'element-invisible' );
-              $progress.show();
-              $upload.text( '暂停上传' );
-              break;
-
-          case 'paused':
-              $progress.show();
-              $upload.text( '继续上传' );
-              break;
-
-          case 'confirm':
-              $progress.hide();
-              $( '#filePicker2' ).removeClass( 'element-invisible' );
-              $upload.text( '开始上传' );
-
-              stats = uploader.getStats();
-              if ( stats.successNum && !stats.uploadFailNum ) {
-                  setState( 'finish' );
-                  return;
-              }
-              break;
-          case 'finish':
-              stats = uploader.getStats();
-              if ( stats.successNum ) {
-                  alert( '上传成功' );
-              } else {
-                  // 没有成功的图片，重设
-                  state = 'done';
-                  location.reload();
-              }
-              break;
-      }
-
-      updateStatus();
-  }
+    /**
+     * 修改btn2css 使得覆盖再image上面
+     * @param {*} btn2 
+     * @param {*} parent 
+     */
+    setBtn2Css (btn2, parent) {
+      btn2.css('zIndex', 999)
+      const btnDivs = parent.find('.webuploader-container>div:last')
+      btnDivs.css('width', this.thumb.width)
+      btnDivs.css('height', this.thumb.height)
+      btnDivs.css('top', '50%')
+      btnDivs.css('left', '50%')
+      btnDivs.css('transform', 'translate(-50%,-50%)')
+    }
   }
 }

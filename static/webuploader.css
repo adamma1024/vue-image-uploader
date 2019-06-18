@@ -47,6 +47,8 @@
 	overflow: hidden;
 	margin: 0;
 	padding: 0;
+	/* 控制上传按钮能不能点到*/
+	z-index: 2;
 	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC");
 }
 .file-item {
@@ -88,8 +90,18 @@
 }
 
 #webuploader-filePicker2{
-	visibility: hidden;
+	opacity: 0;
 	top: 50%;
 	left:50%;
 	transform: translate(-50%,-50%);
+}
+
+.webuploader-image-box-status-bar{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	/* 初始 -1点不到*/
+	z-index: -1;
 }

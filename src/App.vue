@@ -8,7 +8,7 @@
                 <span class="iconfont icon-_Ttianjiabiaoge" title="添加图片" style="font-size:60px;"></span>
             </div>
         </ul>
-        <div class="webuploader-image-box-status-bar" style="position:absolute;height:100%;width:100%">
+        <div class="webuploader-image-box-status-bar">
             <div id='webuploader-filePicker2'></div>
         </div>
     </div>
@@ -24,7 +24,29 @@ export default {
         fileSingleSizeLimit: {
             type: [Number, undefined],
             default: undefined
-        }
+        },
+        thumb: {
+            type: Object,
+            default: function() {
+                return {
+                    width: 100,
+                    height: 100,
+                    // 图片质量，只有type为`image/jpeg`的时候才有效。
+                    quality: 90,
+                    // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+                    allowMagnify: false,
+                    // 是否允许裁剪。
+                    crop: false,
+                    // 是否保留头部meta信息。
+                    preserveHeaders: true,
+                    // 如果发现压缩后文件大小比原来还大，则使用原来图片
+                    // 此属性可能会影响图片自动纠正功能
+                    noCompressIfLarger: false,
+                    // 单位字节，如果图片大小小于此值，不会采用压缩。
+                    compressSize: 0
+                }
+            }
+        },
     },
     data() {
         return {
@@ -35,6 +57,7 @@ export default {
     const list = $('#fileList')
     const uploaderParent = $('#nr-os-webuploader')
     const uploadBtn = uploaderParent.find('#webuploader-uploadBtn')
+    const btn2div = uploaderParent.find('.webuploader-image-box-status-bar')
     // 初始化Web Uploader
     var uploader = WebUploader.create({
 
@@ -85,7 +108,7 @@ export default {
         this.$emit('on-error', errorTxt)
     })
     // 当有文件添加进来的时候
-    uploader.on( 'fileQueued', function( file ) {
+    uploader.on( 'fileQueued', file => {
         var $li = $(
                 '<div id="' + file.id + '" class="file-item thumbnail">' +
                     '<img>' +
@@ -99,6 +122,9 @@ export default {
         list.empty()
         list.append( $li );
 
+        if(btn2div.css('zIndex') !== 999){
+            this.setBtn2Css(btn2div, uploaderParent)
+        }
         // 创建缩略图
         // 如果为非图片文件，可以不用调用此方法。
         // thumbnailWidth x thumbnailHeight 为 100 x 100
@@ -109,7 +135,7 @@ export default {
             }
 
             $img.attr( 'src', src );
-        }, 100, 100 );
+        }, this.thumb.width, this.thumb.height );
     });
 
     // 添加“添加文件”的按钮，
