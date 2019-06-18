@@ -5,7 +5,7 @@
         <ul id="fileList" class="uploader-list">
             <!-- <img v-if='addImage' src="" alt="添加图片"/> -->
             <div id="webuploader-filePicker">
-                <span class="iconfont icon-_Ttianjiabiaoge" title="添加图片" style="font-size:60px;"></span>
+                <span class="iconfont icon-_Ttianjiabiaoge" title="添加图片" :style='plusStyle'></span>
             </div>
         </ul>
         <div class="webuploader-image-box-status-bar">
@@ -19,6 +19,14 @@ import webuploaderMixins from './webuploadermixins'
 export default {
     mixins: [ webuploaderMixins ],
     props: {
+        style: {
+            type: Object,
+            default: function() {
+                return {
+                    plusFontSize: 60
+                }
+            }
+        },
         addImage: {
             default: ''
         },
@@ -52,6 +60,13 @@ export default {
     data() {
         return {
             // uploader: null,
+        }
+    },
+    computed:{
+        plusStyle(){
+            return {
+                fontSize: this.style.plusFontSize
+            }
         }
     },
     mounted() {
