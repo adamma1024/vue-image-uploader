@@ -17,6 +17,7 @@
 <script>
 import webuploaderMixins from './webuploadermixins'
 export default {
+    mixins: [ webuploaderMixins ],
     props: {
         addImage: {
             default: ''
