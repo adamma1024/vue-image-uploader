@@ -7,7 +7,7 @@
             <div id="webuploader-filePicker">
                 <span class="iconfont icon-_Ttianjiabiaoge" title="添加图片" style="font-size:60px;"></span>
             </div>
-            <div class="webuploader-image-box-status-bar" style="display:none;height:100%;width:100%">
+            <div class="webuploader-image-box-status-bar" style="position:absolute;height:100%;width:100%">
                 <div id='webuploader-filePicker2'></div>
             </div>
         </ul>
