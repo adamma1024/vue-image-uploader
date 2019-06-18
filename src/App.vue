@@ -7,10 +7,10 @@
             <div id="webuploader-filePicker">
                 <span class="iconfont icon-_Ttianjiabiaoge" title="添加图片" style="font-size:60px;"></span>
             </div>
-            <div class="webuploader-image-box-status-bar" style="position:absolute;height:100%;width:100%">
-                <div id='webuploader-filePicker2'></div>
-            </div>
         </ul>
+        <div class="webuploader-image-box-status-bar" style="position:absolute;height:100%;width:100%">
+            <div id='webuploader-filePicker2'></div>
+        </div>
     </div>
 </template>
 
@@ -99,7 +99,6 @@ export default {
         list.empty()
         list.append( $li );
 
-        uploaderParent.find('.webuploader-image-box-status-bar').show()
         // 创建缩略图
         // 如果为非图片文件，可以不用调用此方法。
         // thumbnailWidth x thumbnailHeight 为 100 x 100
