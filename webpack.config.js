@@ -7,7 +7,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry: {
-    app: './src/index.js'
+    app: './test/index.js'
   },
   devtool: 'eval-source-map',
   resolve: {

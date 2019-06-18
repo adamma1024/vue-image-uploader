@@ -1,8 +1,3 @@
-import Vue from 'vue'
-import App from './App.vue'
-import '../static/Uploader.swf'
+import imgSelect from './App.vue'
 
-const a = new Vue({
-  template: '<App></App>',
-  components: { App }
-}).$mount('#app')
+export default imgSelect

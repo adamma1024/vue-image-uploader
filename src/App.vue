@@ -19,7 +19,7 @@ import webuploaderMixins from './webuploadermixins'
 export default {
     mixins: [ webuploaderMixins ],
     props: {
-        style: {
+        customStyle: {
             type: Object,
             default: function() {
                 return {
@@ -38,8 +38,8 @@ export default {
             type: Object,
             default: function() {
                 return {
-                    width: 100,
-                    height: 100,
+                    width: 1600,
+                    height: 1600,
                     // 图片质量，只有type为`image/jpeg`的时候才有效。
                     quality: 90,
                     // 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
@@ -65,7 +65,7 @@ export default {
     computed:{
         plusStyle(){
             return {
-                fontSize: this.style.plusFontSize
+                fontSize: this.customStyle.plusFontSize + 'px'
             }
         }
     },
