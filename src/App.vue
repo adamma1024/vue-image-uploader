@@ -19,6 +19,48 @@ import webuploaderMixins from './webuploadermixins'
 export default {
     mixins: [ webuploaderMixins ],
     props: {
+        uploaderConfig:{
+            type: Object,
+            default: function(){
+                return {
+                    // 选完文件后，是否自动上传。
+                    auto: true,
+
+                    // swf文件路径
+                    swf:  + '/assets/Uploader.swf',
+
+                    // 文件接收服务端。
+                    server: 'http://webuploader.duapp.com/server/fileupload.php',
+
+                    // 选择文件的按钮。可选。
+                    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                    pick: '#webuploader-filePicker',
+
+                    // 只允许选择图片文件。
+                    accept: {
+                        title: 'Images',
+                        extensions: 'gif,jpg,jpeg,bmp,png',
+                        mimeTypes: 'image/*'
+                    },
+                    // 是否允许重复（文档解释为去重，不准确）
+                    duplicate: true, 
+                    // 是否要分片处理大文件上传
+                    chunked: true,
+                    // 如果要分片，分多大一片？ 默认大小为1M
+                    chunkSize: 1048576,
+                    // 如果某个分片由于网络问题出错，允许自动重传多少次？
+                    chunkRetry: 2,
+                    // 文件上传请求的参数表，每次发送都会发送此对象中的参数
+                    formData: {},
+                    // 是否已二进制的流的方式发送文件
+                    sendAsBinary: false,
+                    // 验证文件总大小是否超出限制, 超出则不允许加入队列
+                    // fileSizeLimit: true,
+                    // 验证单个文件大小是否超出限制, 超出则不允许加入队列
+                    fileSingleSizeLimit: 1048576, 
+                }
+            }
+        },
         customStyle: {
             type: Object,
             default: function() {
@@ -75,51 +117,15 @@ export default {
     const uploadBtn = uploaderParent.find('#webuploader-uploadBtn')
     const btn2div = uploaderParent.find('.webuploader-image-box-status-bar')
     // 初始化Web Uploader
-    var uploader = WebUploader.create({
+    var uploader = WebUploader.create(this.uploaderConfig)
 
-        // 选完文件后，是否自动上传。
-        auto: true,
-
-        // swf文件路径
-        swf:  + '/assets/Uploader.swf',
-
-        // 文件接收服务端。
-        server: 'http://webuploader.duapp.com/server/fileupload.php',
-
-        // 选择文件的按钮。可选。
-        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-        pick: '#webuploader-filePicker',
-
-        // 只允许选择图片文件。
-        accept: {
-            title: 'Images',
-            extensions: 'gif,jpg,jpeg,bmp,png',
-            mimeTypes: 'image/*'
-        },
-        // 是否允许重复（文档解释为去重，不准确）
-        duplicate: true, 
-        // 是否要分片处理大文件上传
-        chunked: true,
-        // 如果要分片，分多大一片？ 默认大小为1M
-        chunkSize: 1048576,
-        // 如果某个分片由于网络问题出错，允许自动重传多少次？
-        chunkRetry: 2,
-        // 文件上传请求的参数表，每次发送都会发送此对象中的参数
-        formData: {},
-        // 是否已二进制的流的方式发送文件
-        sendAsBinary: false,
-        // 验证文件总大小是否超出限制, 超出则不允许加入队列
-        // fileSizeLimit: true,
-        // 验证单个文件大小是否超出限制, 超出则不允许加入队列
-        fileSingleSizeLimit: this.fileSingleSizeLimit, 
-    })
     //抛出错误信息
     uploader.on('error', (type) => {
         let errorTxt = ''
         if (type === 'Q_TYPE_DENIED') {
             errorTxt = '请检查上传文件类型'
-        } else if (this.fileSingleSizeLimit && type === 'Q_EXCEED_SIZE_LIMIT') {
-            errorTxt = `上传文件总大小超过限制:${this.fileSingleSizeLimit/1024}KB`
+        } else if (this.uploaderConfig.fileSingleSizeLimit && type === 'Q_EXCEED_SIZE_LIMIT') {
+            errorTxt = `上传文件总大小超过限制:${this.uploaderConfig.fileSingleSizeLimit/1024}KB`
         }
         this.$emit('on-error', errorTxt)
     })
