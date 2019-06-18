@@ -10,7 +10,7 @@ export default {
   data(){
     return {
       customStyle: {
-        plusFontSize: 10
+        plusFontSize: 20
       },
       thumb: {
         width: 100,
