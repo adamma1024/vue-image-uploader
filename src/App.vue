@@ -182,8 +182,9 @@ export default {
     });
 
     // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on( 'uploadSuccess', function( file ) {
+    uploader.on( 'uploadSuccess', file => {
         $( '#'+file.id ).addClass('upload-state-done');
+        this.$emit('on-upload-success')
     });
 
     // 文件上传失败，显示上传出错。
@@ -197,6 +198,7 @@ export default {
         }
 
         $error.text('上传失败');
+        this.$emit('on-upload-error')
     });
 
     // 完成上传完了，成功或者失败，先删除进度条。
