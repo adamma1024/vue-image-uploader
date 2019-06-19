@@ -112,99 +112,115 @@ export default {
         }
     },
     mounted() {
-    const list = $('#fileList')
-    const uploaderParent = $('#nr-os-webuploader')
-    const uploadBtn = uploaderParent.find('#webuploader-uploadBtn')
-    const btn2div = uploaderParent.find('.webuploader-image-box-status-bar')
-    // 初始化Web Uploader
-    var uploader = WebUploader.create(this.uploaderConfig)
+        const list = $('#fileList')
+        const uploaderParent = $('#nr-os-webuploader')
+        const uploadBtn = uploaderParent.find('#webuploader-uploadBtn')
+        const btn2div = uploaderParent.find('.webuploader-image-box-status-bar')
+        // 初始化Web Uploader
+        var uploader = WebUploader.create(this.uploaderConfig)
 
-    //抛出错误信息
-    uploader.on('error', (type) => {
-        let errorTxt = ''
-        if (type === 'Q_TYPE_DENIED') {
-            errorTxt = '请检查上传文件类型'
-        } else if (this.uploaderConfig.fileSingleSizeLimit && type === 'Q_EXCEED_SIZE_LIMIT') {
-            errorTxt = `上传文件总大小超过限制:${this.uploaderConfig.fileSingleSizeLimit/1024}KB`
-        }
-        this.$emit('on-error', errorTxt)
-    })
-    // 当有文件添加进来的时候
-    uploader.on( 'fileQueued', file => {
-        var $li = $(
-                '<div id="' + file.id + '" class="file-item thumbnail">' +
-                    '<img>' +
-                    '<div class="info">' + file.name + '</div>' +
-                '</div>'
-                ),
-            $img = $li.find('img');
+        //抛出错误信息
+        uploader.on('error', (type) => {
+            let errorTxt = ''
+            if (type === 'Q_TYPE_DENIED') {
+                errorTxt = '请检查上传文件类型'
+            } else if (this.uploaderConfig.fileSingleSizeLimit && type === 'Q_EXCEED_SIZE_LIMIT') {
+                errorTxt = `上传文件总大小超过限制:${this.uploaderConfig.fileSingleSizeLimit/1024}KB`
+            }
+            this.$emit('on-error', errorTxt)
+        })
+        // 当有文件添加进来的时候
+        uploader.on( 'fileQueued', file => {
+            var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail">' +
+                        '<img>' +
+                        '<div class="info">' + file.name + '</div>' +
+                    '</div>'
+                    ),
+                $img = $li.find('img');
 
 
-        //先清空再添加
-        list.empty()
-        list.append( $li );
+            //先清空再添加
+            list.empty()
+            list.append( $li );
 
-        if(btn2div.css('zIndex') !== 999){
-            this.setBtn2Css(btn2div, uploaderParent)
-        }
-        // 创建缩略图
-        // 如果为非图片文件，可以不用调用此方法。
-        // thumbnailWidth x thumbnailHeight 为 100 x 100
-        uploader.makeThumb( file, function( error, src ) {
-            if ( error ) {
-                $img.replaceWith('<span>不能预览</span>');
-                return;
+            if(btn2div.css('zIndex') !== 999){
+                this.setBtn2Css(btn2div, uploaderParent)
+            }
+            // 创建缩略图
+            // 如果为非图片文件，可以不用调用此方法。
+            // thumbnailWidth x thumbnailHeight 为 100 x 100
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }
+
+                $img.attr( 'src', src );
+            }, this.thumb.width, this.thumb.height );
+        });
+
+        // 添加“添加文件”的按钮，
+        uploader.addButton({
+            id: `#webuploader-filePicker2`,
+            innerHTML: '重新选择'
+        });
+
+        /**
+         * object {Object}
+         * data {Object}默认的上传参数，可以扩展此对象来控制上传参数。
+         * headers {Object}可以扩展此对象来控制上传头部。
+         */
+        uploader.on('uploadBeforeSend', function(object, data, headers){
+        })
+
+        /**
+         * object {Object}
+         * ret {Object}服务端的返回数据，json格式，如果服务端不是json格式，从ret._raw中取数据，自行解析。
+         */
+        uploader.on('uploadAccept', function(object, ret){
+
+        })
+
+        // 文件上传过程中创建进度条实时显示。
+        uploader.on( 'uploadProgress', function( file, percentage ) {
+            var $li = $( '#'+file.id ),
+                $percent = $li.find('.progress span');
+
+            // 避免重复创建
+            if ( !$percent.length ) {
+                $percent = $('<p class="progress"><span></span></p>')
+                        .appendTo( $li )
+                        .find('span');
             }
 
-            $img.attr( 'src', src );
-        }, this.thumb.width, this.thumb.height );
-    });
+            $percent.css( 'width', percentage * 100 + '%' );
+        });
 
-    // 添加“添加文件”的按钮，
-    uploader.addButton({
-        id: `#webuploader-filePicker2`,
-        innerHTML: '重新选择'
-    });
+        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+        uploader.on( 'uploadSuccess', (file, response) => {
+            $( '#'+file.id ).addClass('upload-state-done');
+            this.$emit('on-upload-success', response)
+        });
 
-    // 文件上传过程中创建进度条实时显示。
-    uploader.on( 'uploadProgress', function( file, percentage ) {
-        var $li = $( '#'+file.id ),
-            $percent = $li.find('.progress span');
+        // 文件上传失败，显示上传出错。
+        uploader.on( 'uploadError', (file, reason) => {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
 
-        // 避免重复创建
-        if ( !$percent.length ) {
-            $percent = $('<p class="progress"><span></span></p>')
-                    .appendTo( $li )
-                    .find('span');
-        }
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
 
-        $percent.css( 'width', percentage * 100 + '%' );
-    });
+            $error.text('上传失败');
+            this.$emit('on-upload-error', reason)
+        });
 
-    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-    uploader.on( 'uploadSuccess', file => {
-        $( '#'+file.id ).addClass('upload-state-done');
-        this.$emit('on-upload-success')
-    });
-
-    // 文件上传失败，显示上传出错。
-    uploader.on( 'uploadError', file => {
-        var $li = $( '#'+file.id ),
-            $error = $li.find('div.error');
-
-        // 避免重复创建
-        if ( !$error.length ) {
-            $error = $('<div class="error"></div>').appendTo( $li );
-        }
-
-        $error.text('上传失败');
-        this.$emit('on-upload-error')
-    });
-
-    // 完成上传完了，成功或者失败，先删除进度条。
-    uploader.on( 'uploadComplete', function( file ) {
-        $( '#'+file.id ).find('.progress').remove();
-    });
+        // 完成上传完了，成功或者失败，先删除进度条。
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').remove();
+        });
     }
 }
 </script>
