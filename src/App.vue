@@ -171,15 +171,20 @@ export default {
          * data {Object}默认的上传参数，可以扩展此对象来控制上传参数。
          * headers {Object}可以扩展此对象来控制上传头部。
          */
-        uploader.on('uploadBeforeSend', function(object, data, headers){
+        uploader.on('uploadBeforeSend', (object, data, headers) => {
+            this.imgType = data.type
+            if(this.token){
+                headers['x-auth-token'] = this.token
+            }
         })
 
         /**
          * object {Object}
          * ret {Object}服务端的返回数据，json格式，如果服务端不是json格式，从ret._raw中取数据，自行解析。
          */
-        uploader.on('uploadAccept', function(object, ret){
-
+        uploader.on('uploadAccept', (object, ret) => {
+            // TODO
+            // ret.type = this.imgType
         })
 
         // 文件上传过程中创建进度条实时显示。
